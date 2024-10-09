@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ParcialUno.iml" filepath="$PROJECT_DIR$/ParcialUno.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ParcialUno.main.iml" filepath="$PROJECT_DIR$/.idea/modules/ParcialUno.main.iml" />
     </modules>
   </component>
 </project>

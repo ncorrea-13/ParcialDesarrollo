@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.example.parcialuno.entities.Dna;
 import org.example.parcialuno.repositories.DnaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -14,6 +15,9 @@ import java.util.stream.IntStream;
 public class MutantService {
     protected DnaRepository dnaRepository;
 
+    @Autowired
+    protected ValidationService validationService;
+
     // Constructor que llama al servicio
     public MutantService(DnaRepository dnaRepository) {
         this.dnaRepository = dnaRepository;
@@ -22,23 +26,15 @@ public class MutantService {
     // Método pedido por Magneto
     public boolean isMutant(String[] dna) throws Exception {
         // Validación de las letras
-        boolean validar = validarLetrasADN(dna);
+        boolean validar = validationService.validarADN(dna);
 
         if (!validar) {
-            throw new IllegalArgumentException("DNA must only contain the characters A, T, G, C.");
+            throw new IllegalArgumentException("Error en la declaración del ADN.");
         }
 
         // Verificación de que no sea mutante
         boolean isMutant = verificarMutante(dna);
         return isMutant;
-    }
-
-    // valida que las letras sean solamente A, T, G y C
-    private boolean validarLetrasADN(String[] dna) {
-        boolean resultado = IntStream.range(0, dna.length)
-                .allMatch(i -> dna[i].matches("[ATGC]+"));
-
-        return resultado;
     }
 
     // Método de verificación del mutante
@@ -96,8 +92,8 @@ public class MutantService {
         return cant;
     }
 
-    //Método que realiza una verificación más simplificada de la secuencia
-    //Está construido para no meter este mismo código en todos los otros métodos
+    // Método que realiza una verificación más simplificada de la secuencia
+    // Está construido para no meter este mismo código en todos los otros métodos
     private int verificacionSecuencia(String sequence) {
         return (int) IntStream.range(0, sequence.length() - 3)
                 .filter(i -> sequence.substring(i, i + 4).equals(sequence.substring(i, i + 1).repeat(4)))

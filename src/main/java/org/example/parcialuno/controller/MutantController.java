@@ -2,8 +2,8 @@ package org.example.parcialuno.controller;
 
 import lombok.AllArgsConstructor;
 
-import org.example.parcialuno.dto.DtoDna;
-
+import org.example.parcialuno.dto.DtoDnaInput;
+import org.example.parcialuno.dto.DtoDnaOutput;
 import org.example.parcialuno.services.MutantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,24 +40,26 @@ public class MutantController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> isMutant(@RequestBody DtoDna dnaRequest) throws Exception {
-        //Creación del arreglo pasado desde el JSON
+    public ResponseEntity<?> isMutant(@RequestBody DtoDnaInput dnaRequest) throws Exception {
+        // Creación del arreglo pasado desde el JSON
         String[] dna = dnaRequest.getDna().toArray(new String[0]);
 
-        //Corroboración de que no sea mutante
+        // Corroboración de que no sea mutante
         boolean isMutant = mutantService.isMutant(dna);
 
+        mutantService.save(dna, isMutant);
+        DtoDnaOutput output = new DtoDnaOutput(isMutant);
 
         if (isMutant) {
             try {
-                return ResponseEntity.status(HttpStatus.OK).body(mutantService.save(dna, isMutant));
+                return ResponseEntity.status(HttpStatus.OK).body(output);
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("{\"error\":\"Error\" \"}");
             }
         } else {
             try {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(mutantService.save(dna, isMutant));
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(output);
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body("{\"error\":\"Error\" \"}");
