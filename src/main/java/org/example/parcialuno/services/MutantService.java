@@ -13,6 +13,8 @@ import java.util.stream.IntStream;
 
 @Service
 public class MutantService {
+
+    @Autowired
     protected DnaRepository dnaRepository;
 
     @Autowired
@@ -136,6 +138,7 @@ public class MutantService {
             List<Dna> entities = dnaRepository.findAll();
             return entities;
         } catch (Exception e) {
+            System.out.println("ERRORRRRRR:::  " + e.getMessage());
             throw new Exception(e.getMessage());
         }
     }
@@ -146,6 +149,7 @@ public class MutantService {
             Optional<Dna> entitie = dnaRepository.findById(id);
             return entitie.get();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new Exception(e.getMessage());
         }
     }

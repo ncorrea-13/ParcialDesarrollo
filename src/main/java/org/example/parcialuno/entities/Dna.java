@@ -15,4 +15,7 @@ public class Dna extends Base {
     // Devuelve true si es mutante. False si no lo es
     private boolean mutante;
 
+    public Dna(){
+    }
+
 }
