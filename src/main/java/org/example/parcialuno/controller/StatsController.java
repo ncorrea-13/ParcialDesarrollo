@@ -13,6 +13,7 @@ public class StatsController {
     @Autowired
     private StatsService statsService;
 
+    //Invocación al servicio 
     @GetMapping
     public DtoStats getStats() {
         return statsService.getStats();

@@ -11,6 +11,7 @@ import lombok.Data;
 public class DtoDnaInput {
 
     // El DTO permite encapsular el JSON enviado
+
     private List<String> dna;
 
     @JsonCreator

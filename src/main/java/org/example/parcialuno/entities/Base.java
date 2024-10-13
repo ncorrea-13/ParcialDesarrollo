@@ -12,6 +12,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class Base implements Serializable {
+
+    //Entidad genérica por si se necestian más entidades a futuro
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -24,17 +24,20 @@ public class ValidationService {
         return resultado;
     }
 
+    // valida que la matriz sea cuadrada, es decir, NxN
     public boolean validarCuadradoADN(String[] dna) {
         int tamanio = dna.length;
         boolean resultado = Arrays.stream(dna).allMatch(row -> row.length() == tamanio);
         return resultado;
     }
 
+    // valida que la matriz tenga letras, no números
     public boolean validarLetrasADN(String[] dna) {
         boolean resultado = Arrays.stream(dna).noneMatch(row -> row.matches(".*\\d+.*"));
         return resultado;
     }
 
+    // valida que no sea una matriz de una única letra
     public boolean validarADNUnicaLetra(String[] dna) {
         boolean resultado = Arrays.stream(dna)
                 .noneMatch(row -> row.chars().allMatch(ch -> ch == dna[0].charAt(0)));

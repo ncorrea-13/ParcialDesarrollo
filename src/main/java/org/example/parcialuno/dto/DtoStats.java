@@ -1,7 +1,5 @@
 package org.example.parcialuno.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,10 +7,10 @@ import lombok.Data;
 @Data
 public class DtoStats {
 
-    @JsonProperty("count_mutant_dna")
+    //DTO de estadísticas a mostrar
+
     private double countMutantDna;
 
-    @JsonProperty("count_human_dna")
     private double countHumanDna;
 
     private double ratio;

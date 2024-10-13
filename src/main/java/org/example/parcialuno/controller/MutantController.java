@@ -19,6 +19,7 @@ public class MutantController {
     @Autowired
     private MutantService mutantService;
 
+    // LLamado para obtener todos los ADN
     @GetMapping("")
     public ResponseEntity<?> getAll() throws Exception {
         try {
@@ -29,6 +30,7 @@ public class MutantController {
         }
     }
 
+    // LLamado para obtener un ADN específico
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(@PathVariable Long id) throws Exception {
         try {
@@ -39,6 +41,7 @@ public class MutantController {
         }
     }
 
+    // LLamado para el servicio de isMutant
     @PostMapping("")
     public ResponseEntity<?> isMutant(@RequestBody DtoDnaInput dnaRequest) throws Exception {
         // Creación del arreglo pasado desde el JSON

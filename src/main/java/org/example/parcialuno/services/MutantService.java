@@ -33,8 +33,7 @@ public class MutantService {
         }
 
         // Verificación de que no sea mutante
-        boolean isMutant = verificarMutante(dna);
-        return isMutant;
+        return verificarMutante(dna);
     }
 
     // Método de verificación del mutante
@@ -43,13 +42,23 @@ public class MutantService {
         int count = 0;
 
         // Metodos que verifican la existencia del mutágeno
-        count += verificacionHorizontal(dna, n);
-        count += verificacionVertical(dna, n);
-        count += verificacionDiagonalDerecha(dna, n);
-        count += verificacionDiagonalIzquierda(dna, n);
 
         // Retorna falso si no hay mutágeno, verdadero si por lo menos en alguna de las
         // formas lo es
+
+        count += verificacionHorizontal(dna, n);
+        if (count > 1)
+            return true;
+
+        count += verificacionVertical(dna, n);
+        if (count > 1)
+            return true;
+
+        count += verificacionDiagonalDerecha(dna, n);
+        if (count > 1)
+            return true;
+
+        count += verificacionDiagonalIzquierda(dna, n);
         return count > 1;
     }
 
@@ -60,6 +69,9 @@ public class MutantService {
                         .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                         .toString()))
                 .sum();
+
+        // para cada columna de DNA a la función para que verifique las secuencias de
+        // las letras
         return cant;
     }
 
@@ -67,9 +79,13 @@ public class MutantService {
         int cant = IntStream.range(0, n)
                 .map(i -> verificacionSecuencia(dna[i]))
                 .sum();
+
+        // para cada fila de DNA a la función para que verifique las secuencias de las
+        // letras
         return cant;
     }
 
+    // para cada diagonal de DNA a la función
     private int verificacionDiagonalDerecha(String[] dna, int n) {
         int cant = IntStream.range(0, n)
                 .map(i -> verificacionSecuencia(IntStream.range(0, n - i)
@@ -78,17 +94,29 @@ public class MutantService {
                         .toString()))
                 .sum();
 
+        cant += IntStream.range(0, n)
+                .map(i -> verificacionSecuencia(IntStream.range(0, n - i)
+                        .mapToObj(j -> dna[j + i].charAt(j))
+                        .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                        .toString()))
+                .sum();
         return cant;
     }
 
     private int verificacionDiagonalIzquierda(String[] dna, int n) {
         int cant = IntStream.range(0, n)
                 .map(i -> verificacionSecuencia(IntStream.range(0, n - i)
-                        .mapToObj(j -> dna[j + i].charAt(j))
+                        .mapToObj(j -> dna[j].charAt(n - 1 - j - i))
                         .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
                         .toString()))
                 .sum();
 
+        cant += IntStream.range(0, n)
+                .map(i -> verificacionSecuencia(IntStream.range(0, n - i)
+                        .mapToObj(j -> dna[j].charAt(n - 1 - j))
+                        .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
+                        .toString()))
+                .sum();
         return cant;
     }
 
@@ -98,6 +126,8 @@ public class MutantService {
         return (int) IntStream.range(0, sequence.length() - 3)
                 .filter(i -> sequence.substring(i, i + 4).equals(sequence.substring(i, i + 1).repeat(4)))
                 .count();
+        // verifica que 4 letras consecutivas no se repitan según el análisis hecho
+        // desde el llamado
     }
 
     @Transactional
